@@ -11,6 +11,10 @@ export class OrdersService {
 		return this.orders;
 	}
 
+	getOrderById(id: string): Order {
+		return this.orders.find(order => order.id === id)
+	}
+
 	createOrder(createOrderDto: CreateOrderDto): Order {
 		const { client_name, client_phone, client_email, product_name } = createOrderDto;
 
@@ -25,5 +29,9 @@ export class OrdersService {
 
 		this.orders.push(order);
 		return order;
+	}
+
+	deleteOrder(id: string): void {
+		this.orders = this.orders.filter(order => order.id !== id);
 	}
 }
