@@ -3,13 +3,14 @@ import { OrdersService } from './orders.service';
 import { Order, OrderStatus } from './order.model';
 import { CreateOrderDto } from './dto/create-order.dto'
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto'
+import { OrderStatusValidationPipe } from './pipes/order-status-validation.pipe';
 
 @Controller('orders')
 export class OrdersController {
 	constructor(private ordersService: OrdersService) {}
 
 	@Get()
-	index(@Query() filterDto: GetOrdersFilterDto): Order[] {
+	index(@Query(ValidationPipe) filterDto: GetOrdersFilterDto): Order[] {
 		if(Object.keys(filterDto).length){
 			return this.ordersService.getOrdersWithFilters(filterDto)
 		}else{
@@ -36,7 +37,7 @@ export class OrdersController {
 	@Patch('/:id/status')
 	updateStatus(
 		@Param('id') id: string,
-		@Body('status') status: OrderStatus,
+		@Body('status', OrderStatusValidationPipe) status: OrderStatus,
 	): Order{
 		return this.ordersService.updateStatus(id, status);
 	}
