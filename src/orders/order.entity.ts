@@ -1,10 +1,10 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { OrderStatus } from './order.model'
+import { OrderStatus } from './order.model';
 
 @Entity()
 export class Order extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number
+	id: number;
 
 	@Column()
 	client_name: string;
