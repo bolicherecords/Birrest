@@ -1,6 +1,6 @@
 stages:
   - test
-  #- build
+  - build
 testing-development:
   stage: test
   tags:
@@ -8,3 +8,15 @@ testing-development:
   image: node:15.14.0-alpine
   script:
     - echo "Hello Birre"
+
+building-development:
+  stage: build
+  tags: 
+    - building
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:version$CI_COMMIT_SHORT_SHA
