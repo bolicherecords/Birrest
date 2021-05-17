@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Order, OrderStatus } from './order.model';
-import { v1 as uuid} from 'uuid'
-import { CreateOrderDto } from './dto/create-order.dto'
-import { GetOrdersFilterDto } from './dto/get-orders-filter.dto'
+import { v1 as uuid} from 'uuid';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { GetOrdersFilterDto } from './dto/get-orders-filter.dto';
 
 @Injectable()
 export class OrdersService {

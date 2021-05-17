@@ -1,0 +1,10 @@
+stages:
+  - test
+  #- build
+testing-development:
+  stage: test
+  tags:
+    - testing
+  image: node:15.14.0-alpine
+  scripts:
+    - echo "Hello Birre"
