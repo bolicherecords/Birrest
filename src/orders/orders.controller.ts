@@ -1,44 +1,41 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Order, OrderStatus } from './order.model';
 import { CreateOrderDto } from './dto/create-order.dto'
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto'
 import { OrderStatusValidationPipe } from './pipes/order-status-validation.pipe';
+import { Order } from './order.entity';
+import { OrderStatus } from './order-status.enum';
 
 @Controller('orders')
 export class OrdersController {
 	constructor(private ordersService: OrdersService) {}
-
+	
 	@Get()
-	index(@Query(ValidationPipe) filterDto: GetOrdersFilterDto): Order[] {
-		if(Object.keys(filterDto).length){
-			return this.ordersService.getOrdersWithFilters(filterDto)
-		}else{
-			return this.ordersService.getAllOrders();
-		}
+	getOrders(@Query(ValidationPipe) filterDto: GetOrdersFilterDto): Promise<Order[]> {
+		return this.ordersService.getOrders(filterDto);
 	}
 
 	@Get('/:id')
-	show(@Param('id') id: string){
+	show(@Param('id', ParseIntPipe) id: number): Promise<Order> {
 		return this.ordersService.getOrderById(id);
 	}
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	create(@Body() createOrderDto: CreateOrderDto): Order {
+	create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
 		return this.ordersService.createOrder(createOrderDto);
 	}
 
 	@Delete('/:id')
-	delete(@Param('id') id: string): void{
-		this.ordersService.deleteOrder(id);
+	delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+		return this.ordersService.deleteOrder(id);
 	}
 
 	@Patch('/:id/status')
 	updateStatus(
-		@Param('id') id: string,
+		@Param('id', ParseIntPipe) id: number,
 		@Body('status', OrderStatusValidationPipe) status: OrderStatus,
-	): Order{
+	): Promise<Order>{
 		return this.ordersService.updateStatus(id, status);
 	}
 }

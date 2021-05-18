@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { OrderStatus } from './order.model';
+import { OrderStatus } from './order-status.enum';
 
 @Entity()
 export class Order extends BaseEntity {

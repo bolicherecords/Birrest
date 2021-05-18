@@ -1,4 +1,4 @@
-import { OrderStatus } from '../order.model';
+import { OrderStatus } from '../order-status.enum';
 import { IsOptional, IsIn, IsNotEmpty } from 'class-validator';
 
 export class GetOrdersFilterDto{

@@ -1,5 +1,5 @@
 import { PipeTransform, BadRequestException } from '@nestjs/common';
-import { OrderStatus } from '../order.model'
+import { OrderStatus } from '../order-status.enum'
 
 export class OrderStatusValidationPipe implements PipeTransform {
 	readonly allowedStatuses = [

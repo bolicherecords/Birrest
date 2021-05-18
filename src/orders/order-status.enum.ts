@@ -1,0 +1,6 @@
+export enum OrderStatus {
+	CREATED = "CREADA",
+	IN_PROGRESS = "PREPARACION",
+	TRANSIT = "TRANSITO",
+	DONE = "FINALIZADA",
+}
