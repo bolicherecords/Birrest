@@ -15,7 +15,7 @@ export class OrderRepository extends Repository<Order> {
         }
 
         if (search){
-            query.andWhere('(order.client_email LIKE :search OR order.client_name LIKE :search OR order.client_phone LIKE :search OR order.product_name LIKE :search)', { search: `%${search}%` });
+            query.andWhere('(LOWER(order.client_email) LIKE LOWER(:search) OR LOWER(order.client_name) LIKE LOWER(:search) OR LOWER(order.client_phone) LIKE LOWER(:search) OR LOWER(order.product_name) LIKE LOWER(:search))', { search: `%${search}%` });
         }
         const orders = await query.getMany();
         return orders;
