@@ -6,6 +6,9 @@ import { OrderStatusValidationPipe } from './pipes/order-status-validation.pipe'
 import { Order } from './order.entity';
 import { OrderStatus } from './order-status.enum';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { userInfo } from 'node:os';
+import { User } from 'src/auth/user.entity';
 
 @Controller('orders')
 @UseGuards(AuthGuard())
@@ -13,31 +16,35 @@ export class OrdersController {
 	constructor(private ordersService: OrdersService) {}
 	
 	@Get()
-	getOrders(@Query(ValidationPipe) filterDto: GetOrdersFilterDto): Promise<Order[]> {
-		return this.ordersService.getOrders(filterDto);
+	getOrders(@Query(ValidationPipe) filterDto: GetOrdersFilterDto, @GetUser() user: User): Promise<Order[]> {
+		return this.ordersService.getOrders(filterDto, user);
 	}
 
 	@Get('/:id')
-	show(@Param('id', ParseIntPipe) id: number): Promise<Order> {
-		return this.ordersService.getOrderById(id);
+	show(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<Order> {
+		return this.ordersService.getOrderById(id, user);
 	}
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
-		return this.ordersService.createOrder(createOrderDto);
+	create(
+		@Body() createOrderDto: CreateOrderDto,
+		@GetUser() user: User,
+	): Promise<Order> {
+		return this.ordersService.createOrder(createOrderDto, user);
 	}
 
 	@Delete('/:id')
-	delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
-		return this.ordersService.deleteOrder(id);
+	delete(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<void> {
+		return this.ordersService.deleteOrder(id, user);
 	}
 
 	@Patch('/:id/status')
 	updateStatus(
 		@Param('id', ParseIntPipe) id: number,
 		@Body('status', OrderStatusValidationPipe) status: OrderStatus,
+		@GetUser() user: User,
 	): Promise<Order>{
-		return this.ordersService.updateStatus(id, status);
+		return this.ordersService.updateStatus(id, status, user);
 	}
 }
