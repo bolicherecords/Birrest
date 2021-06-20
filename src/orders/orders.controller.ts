@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto'
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto'
 import { OrderStatusValidationPipe } from './pipes/order-status-validation.pipe';
 import { Order } from './order.entity';
 import { OrderStatus } from './order-status.enum';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('orders')
+@UseGuards(AuthGuard())
 export class OrdersController {
 	constructor(private ordersService: OrdersService) {}
 	
