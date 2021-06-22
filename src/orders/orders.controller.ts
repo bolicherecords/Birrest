@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards, Logger } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto'
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto'
@@ -7,12 +7,12 @@ import { Order } from './order.entity';
 import { OrderStatus } from './order-status.enum';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { userInfo } from 'node:os';
 import { User } from 'src/auth/user.entity';
 
 @Controller('orders')
 @UseGuards(AuthGuard())
 export class OrdersController {
+	private logger = new Logger('OrdersController');
 	constructor(private ordersService: OrdersService) {}
 	
 	@Get()
@@ -22,6 +22,7 @@ export class OrdersController {
 
 	@Get('/:id')
 	show(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<Order> {
+		this.logger.debug('Im in Show Contoller');
 		return this.ordersService.getOrderById(id, user);
 	}
 
