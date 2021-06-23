@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto';
 import { OrderStatus } from './order-status.enum';

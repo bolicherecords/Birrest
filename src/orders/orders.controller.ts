@@ -6,8 +6,8 @@ import { OrderStatusValidationPipe } from './pipes/order-status-validation.pipe'
 import { Order } from './order.entity';
 import { OrderStatus } from './order-status.enum';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/auth/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('orders')
 @UseGuards(AuthGuard())

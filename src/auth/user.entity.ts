@@ -1,4 +1,4 @@
-import { Order } from "src/orders/order.entity";
+import { Order } from "../orders/order.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

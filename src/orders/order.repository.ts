@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderStatus } from './order-status.enum';
 import { GetOrdersFilterDto } from './dto/get-orders-filter.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
